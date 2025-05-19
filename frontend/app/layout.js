@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased m-0 p-0`}>
         <div className="">{children}</div>
       </body>
     </html>
