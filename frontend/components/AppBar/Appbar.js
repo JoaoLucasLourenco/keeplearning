@@ -1,6 +1,8 @@
 import { Typography } from "@mui/material";
 import { AppBarItem } from "../AppBarItem/AppBarItem";
 import { usePathname } from "next/navigation";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import Link from "next/link";
 export function AppBar(props) {
   const pathName = usePathname();
   return (
@@ -46,6 +48,27 @@ export function AppBar(props) {
             key={item.urlPath}
           />
         ))}
+        <Link href={"#"}>
+          <li
+            style={{
+              display: "flex",
+              gap: "1rem",
+              color: "#6B7280",
+              padding: "0.7rem 1.2rem",
+              justifyContent: "flex-start",
+              borderRadius: "999px",
+              width: "100%",
+              alignItems: "center",
+              border: "1px solid #D1D5DB",
+            }}
+          >
+            <span style={{ color: "#3B82F6" }}>
+              <AutoAwesomeIcon />
+            </span>
+
+            <p>Pergunte à IA</p>
+          </li>
+        </Link>
       </ul>
     </div>
   );

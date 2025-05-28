@@ -2,10 +2,9 @@
 import { AppBar } from "@/components/AppBar/Appbar";
 import { MainScreen } from "@/components/MainScreen/MainScreen";
 import { appBarItems } from "@/lib/appBarItens";
-import { DashboardMainScreen } from "@/components/DashBoardMainScreen.js/DashboardMainScreen";
+import { PageInfo } from "@/components/PageInfo/PageInfo";
 
-export default function Dashboard() {
-  const updatedData = false;
+export default function Courses() {
   return (
     <main style={{ height: "100%" }}>
       <div
@@ -23,11 +22,9 @@ export default function Dashboard() {
           <AppBar items={appBarItems} />
         </header>
         <MainScreen>
-          <DashboardMainScreen
-            title={"Estrutura de dados"}
-            subtitle={"Ciência da computação"}
-            updatedData={updatedData}
-          />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <PageInfo subtitle={"Cursos e Disciplinas"} title={"Cursos"} />
+          </div>
         </MainScreen>
       </div>
     </main>

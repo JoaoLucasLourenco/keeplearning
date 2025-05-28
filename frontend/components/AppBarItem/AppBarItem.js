@@ -14,6 +14,7 @@ export function AppBarItem(props) {
             justifyContent: "flex-start",
             borderRadius: "10px",
             width: "100%",
+            alignItems: "center",
           }}
         >
           {props.icon}
