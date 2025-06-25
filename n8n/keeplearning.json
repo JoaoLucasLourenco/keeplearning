@@ -1,0 +1,458 @@
+{
+  "name": "KeepLearning",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{$json[\"output\"]}}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1900,
+        -20
+      ],
+      "id": "d8830749-e758-49c9-807f-ead30b4e963c",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e2f08497-2796-447f-8af8-b81a671b90af",
+              "leftValue": "={{ $('Webhook1').item.json.body.mensagem_usuario }}",
+              "rightValue": "Olá!",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2480,
+        400
+      ],
+      "id": "997c5b97-f1d6-4559-8cd3-879f74a0c332",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=Olá! Pode mandar ver nas perguntas sobre {{ $('Edit Fields1').item.json.materia }}. Tô aqui pra te ajudar de um jeito simples e direto! 😄",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2720,
+        400
+      ],
+      "id": "2ca9a07f-66e2-4273-bcd5-4b9ec619c755",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields1').item.json.id }}",
+        "contextWindowLength": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1620,
+        240
+      ],
+      "id": "15997148-58ae-4a4a-8c2e-68ece582a459",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "1120c3d8-c41d-4d3f-9c14-b57813e38f73",
+      "name": "Webhook1",
+      "webhookId": "a4266817-6e17-43a1-a163-1aab239c3eac"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a67f5f56-ea0a-4f61-b9b6-e21135e04724",
+              "name": "id",
+              "value": "={{ $json.body['sessionId'] }}",
+              "type": "number"
+            },
+            {
+              "id": "0e8e4548-8683-42ec-b927-1f84c5ad3cbf",
+              "name": "mensagem_usuario",
+              "value": "={{ $json.body['mensagem_usuario'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1260,
+        0
+      ],
+      "id": "c213a8fb-c587-4bc3-b73a-048ccbec1cdf",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.mensagem_usuario }}",
+        "options": {
+          "systemMessage": "=Você é um assistente especializado em evasão escolar no ensino a distância (EAD). \n\n✅ Você pode responder perguntas como:\n- Quais são os principais fatores que levam à evasão?\n- Como posso prever alunos com risco de evasão?\n- Como interpretar os dados do sistema de evasão?\n- Quais estratégias podem ajudar a evitar a evasão?\n\n❌ Você NÃO pode responder perguntas que não sejam sobre evasão escolar.\n\nSe alguém perguntar sobre outro assunto (ex: futebol, filmes, política, etc.), diga educadamente:\n\n\"Desculpe, só posso responder perguntas relacionadas à evasão de alunos EAD.\"\n\nAgora, responda à pergunta a seguir de forma clara e direta:\n\nPergunta: {{ $json[\"mensagem_do_usuario\"] }}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1500,
+        -20
+      ],
+      "id": "863b9af6-005f-4593-ad77-edc280d5abd8",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        240
+      ],
+      "id": "33c8bd9d-2f43-4f52-886d-f936fa9b521d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "isnolgn68fqMmGpi",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        300
+      ],
+      "id": "2e211339-9ff3-420d-8e88-71ab125d653c",
+      "name": "When chat message received",
+      "webhookId": "577b282d-ca54-4f3d-ad2d-5cf4c43793c1"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{$json[\"output\"]}}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1900,
+        580
+      ],
+      "id": "59da31da-bf3c-4255-afc2-161024dc489c",
+      "name": "Respond to Webhook3"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.id_aluno }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1620,
+        840
+      ],
+      "id": "fa98d8f1-bc7a-4472-bd50-728f924d61e2",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat-por-aluno2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        600
+      ],
+      "id": "ad825983-a9c5-4ef6-9238-1951659d7832",
+      "name": "Webhook2",
+      "webhookId": "a4266817-6e17-43a1-a163-1aab239c3eac"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a67f5f56-ea0a-4f61-b9b6-e21135e04724",
+              "name": "id_mensagem",
+              "value": "={{ $json.body['id_mensagem'] }}",
+              "type": "number"
+            },
+            {
+              "id": "087e87e6-bf1c-4b03-b67b-875ccda419ff",
+              "name": "id_aluno",
+              "value": "={{ $json.body.id_aluno }}",
+              "type": "string"
+            },
+            {
+              "id": "0e8e4548-8683-42ec-b927-1f84c5ad3cbf",
+              "name": "nome_aluno",
+              "value": "={{ $json.body['nome_aluno'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6fe7f38f-b1ed-4a33-af08-a8b080e4d362",
+              "name": "risco_evasao",
+              "value": "={{ $json.body.risco_evasao }}",
+              "type": "number"
+            },
+            {
+              "id": "99ec3877-3869-476e-8228-6488cf4e847e",
+              "name": "arquetipo",
+              "value": "={{ $json.body['arquetipo'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5af3d773-8170-440a-a5a1-535fc8c713b7",
+              "name": "curso",
+              "value": "={{ $json.body['curso'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1260,
+        600
+      ],
+      "id": "c42de653-6ce9-4d42-8f6c-3a295f848ee8",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Webhook2').item.json.body.mensagem }}",
+        "options": {
+          "systemMessage": "=Você é um assistente especializado em evasão de alunos EAD.\n\nSeu foco é responder somente perguntas relacionadas à evasão escolar do aluno {{ $('Webhook2').item.json.body.nome_aluno }}, com base nos seguintes dados:\n\n- Nome: {{ $('Webhook2').item.json.body.nome_aluno }}\n- Curso: {{ $('Webhook2').item.json.body.curso }}\n- Risco de evasão: {{ $('Webhook2').item.json.body.risco_evasao }}%\n- Arquétipo: {{ $('Webhook2').item.json.body.arquetipo }}\n\nVocê pode responder perguntas sobre:\n- Nível de risco de evasão e possíveis causas\n- Engajamento, frequência, comportamento online\n- Estratégias e sugestões práticas para ajudar o aluno a permanecer no curso\n- Recomendações personalizadas com base no arquétipo\n\n❌ Se o usuário perguntar sobre um aluno com id diferente de {{ $('Webhook2').item.json.body.id_aluno }}, diga:\n> Desculpe, só posso fornecer informações sobre o aluno {{ $('Webhook2').item.json.body.nome_aluno }}.\n\n❌ Se o usuário perguntar sobre outros assuntos (política, esportes, etc.), diga:\n> Desculpe, só posso responder perguntas relacionadas à evasão escolar do aluno {{ $('Webhook2').item.json.body.nome_aluno }}.\n\nAgora, analise a pergunta a seguir e responda de forma clara, objetiva e útil:\n\n**Pergunta:** {{ $('Webhook2').item.json.body.mensagem }}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1500,
+        580
+      ],
+      "id": "96879381-3dab-49fe-9c5c-5f52170bb4ba",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        840
+      ],
+      "id": "eb5ee475-56dc-4f2e-b149-30487468b9e6",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "isnolgn68fqMmGpi",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        []
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1d8b9813-ad62-4fdc-91f4-3ff4f8a3974e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6ad9fc9c463128e919cbc64a714fec8587a866fa1baf5bc0ef61488024c2f58e"
+  },
+  "id": "yQkT37wQ237ZDuFQ",
+  "tags": []
+}

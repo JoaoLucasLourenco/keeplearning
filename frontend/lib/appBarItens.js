@@ -10,8 +10,8 @@ const appBarItems = [
   },
   {
     icon: <BookOutlinedIcon />,
-    urlPath: "/courses_disciplines/courses",
-    textContent: "Cursos e disciplinas",
+    urlPath: "/courses",
+    textContent: "Disciplinas",
   },
   {
     icon: <GroupsOutlinedIcon />,

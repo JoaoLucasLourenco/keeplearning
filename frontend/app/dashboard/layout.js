@@ -4,8 +4,7 @@ import { MainScreen } from "@/components/MainScreen/MainScreen";
 import { appBarItems } from "@/lib/appBarItens";
 import { DashboardMainScreen } from "@/components/DashBoardMainScreen.js/DashboardMainScreen";
 
-export default function Dashboard() {
-  const updatedData = false;
+export default function DashboardLayout({ children }) {
   return (
     <main style={{ height: "100%" }}>
       <div
@@ -22,13 +21,7 @@ export default function Dashboard() {
         >
           <AppBar items={appBarItems} />
         </header>
-        <MainScreen>
-          <DashboardMainScreen
-            title={"Estrutura de dados"}
-            subtitle={"Ciência da computação"}
-            updatedData={updatedData}
-          />
-        </MainScreen>
+        <MainScreen>{children}</MainScreen>
       </div>
     </main>
   );

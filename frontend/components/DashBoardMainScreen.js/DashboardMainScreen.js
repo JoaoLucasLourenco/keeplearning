@@ -4,8 +4,11 @@ import { PageInfo } from "@/components/PageInfo/PageInfo";
 import { DropoutTable } from "@/components/DropoutTable/DropoutTable";
 import { Button } from "@mui/material";
 import { SyncOutlined } from "@mui/icons-material";
+import { useState } from "react";
 
 export function DashboardMainScreen(props) {
+  const [updatedData, setUpdatedData] = useState(false);
+
   return (
     <div
       style={{
@@ -17,12 +20,15 @@ export function DashboardMainScreen(props) {
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <PageInfo subtitle={props.subtitle} title={props.title} />
-        <Button sx={{ paddingX: "2rem" }} startIcon={<SyncOutlined />}>
+        <Button
+          onClick={() => setUpdatedData(!updatedData)}
+          sx={{ paddingX: "2rem" }}
+          startIcon={<SyncOutlined />}
+        >
           Sincronizar
         </Button>
       </div>
-      <DataUpdateAlert updatedData={props.updatedData} />
-      <DropoutTable />
+      <DataUpdateAlert updatedData={updatedData} />
     </div>
   );
 }

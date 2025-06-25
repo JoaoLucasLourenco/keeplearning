@@ -7,9 +7,6 @@ export function MainScreen({ children }) {
         width: "100%",
         padding: "2rem",
         borderRadius: "20px",
-        gap: "1rem",
-        display: "flex",
-        flexDirection: "column",
       }}
     >
       {children}

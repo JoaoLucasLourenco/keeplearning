@@ -41,7 +41,7 @@ export function AppBar(props) {
       <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {props.items.map((item) => (
           <AppBarItem
-            active={item.urlPath === pathName}
+            active={pathName.includes(item.urlPath)}
             icon={item.icon}
             textContent={item.textContent}
             urlPath={item.urlPath}
