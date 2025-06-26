@@ -95,7 +95,7 @@ export default function Home() {
             variant="contained"
             sx={{ margin: 4, borderRadius: 999 }}
             onClick={() => {
-              router.push("/dashboard");
+              router.push("/courses");
             }}
           >
             Começar
