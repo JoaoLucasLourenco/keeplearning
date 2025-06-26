@@ -41,7 +41,7 @@ export default function Courses() {
                 cardDataLabel={"Alunos matriculados:"}
                 cardData={course.cardData}
                 buttonText={"Selecionar disciplina"}
-                urlPath={"/dashboard"}
+                id={course.id}
               />
             ))}
           </div>

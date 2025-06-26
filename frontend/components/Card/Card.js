@@ -1,6 +1,12 @@
+"use client";
+
+import { useCourse } from "@/hooks/context/useCourse";
 import { Button, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export function Card(props) {
+  const { selectedCourseId, setSelectedCourseId } = useCourse();
+  const router = useRouter();
   return (
     <div
       style={{
@@ -26,8 +32,14 @@ export function Card(props) {
         <p>{props.cardDataLabel}</p>
         <span style={{ color: "#3B82F6" }}>{props.cardData}</span>
       </main>
-      <Button sx={{ borderRadius: "0px" }}>
-        <a href={props.urlPath}>{props.buttonText}</a>
+      <Button
+        sx={{ borderRadius: "0px" }}
+        onClick={() => {
+          setSelectedCourseId(props.id);
+          router.push("/dashboard");
+        }}
+      >
+        {props.buttonText}
       </Button>
     </div>
   );

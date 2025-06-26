@@ -1,6 +1,7 @@
 import ThemeRegistry from "@/components/ThemeResistry/ThemeResistry";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import CourseResistry from "@/components/CourseResistry/courseResistry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
       <body className={inter.className} style={{ height: "100vh" }}>
-        <ThemeRegistry>{children}</ThemeRegistry>
+        <CourseResistry>
+          <ThemeRegistry>{children}</ThemeRegistry>
+        </CourseResistry>
       </body>
     </html>
   );
