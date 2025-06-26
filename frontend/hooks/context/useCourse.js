@@ -9,6 +9,10 @@ export function useCourse() {
 export function CourseProvider({ children }) {
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
+  const clearSelectedCourse = () => {
+    setSelectedCourseId(null);
+    localStorage.removeItem("selectedCourseId");
+  };
   useEffect(() => {
     const storedId = localStorage.getItem("selectedCourseId");
     if (storedId) {
@@ -23,7 +27,9 @@ export function CourseProvider({ children }) {
   }, [selectedCourseId]);
 
   return (
-    <CourseContext.Provider value={{ selectedCourseId, setSelectedCourseId }}>
+    <CourseContext.Provider
+      value={{ selectedCourseId, setSelectedCourseId, clearSelectedCourse }}
+    >
       {children}
     </CourseContext.Provider>
   );

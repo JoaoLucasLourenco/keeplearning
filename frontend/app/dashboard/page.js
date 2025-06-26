@@ -11,10 +11,13 @@ export default function Dashboard() {
 
   return selectedCourse ? (
     <DashboardMainScreen
-      title={selectedCourse.title}
+      title={"Dashboard Acadêmico"}
       subtitle={selectedCourse.course}
     />
   ) : (
-    <p>Nenhum discicplina selecionada</p>
+    <DashboardMainScreen
+      title={"Dashboard Acadêmico"}
+      subtitle={"Todas as diciplinas"}
+    />
   );
 }

@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
-      <body className={inter.className} style={{ height: "100vh" }}>
+      <body className={inter.className} style={{ minHeight: "100vh" }}>
         <CourseResistry>
           <ThemeRegistry>{children}</ThemeRegistry>
         </CourseResistry>
